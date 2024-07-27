@@ -14,12 +14,14 @@ namespace Project1.Controllers
             return View(result);
         }
 
-        public IActionResult CreateNew()
+        //[HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
         //public IActionResult SaveNew(string Name, string Description)
-        public IActionResult SaveNew(Category category)
+        [HttpPost]
+        public IActionResult Create(Category category)
         {
             //Category category = new Category()
             //{
@@ -39,7 +41,8 @@ namespace Project1.Controllers
             return result != null ? View(result) : RedirectToAction("NotFound", "Home");
         }
 
-        public IActionResult SaveEdit(Category category)
+        [HttpPost]
+        public IActionResult Edit(Category category)
         {
             context.Categories.Update(category);
             context.SaveChanges();

@@ -24,11 +24,12 @@ namespace Project1.Controllers
             return View(result); 
         }
 
-        public IActionResult CreateNew()
+        public IActionResult Create()
         {
             return View();
         }
-        public IActionResult SaveNew(Product product)
+        [HttpPost]
+        public IActionResult Create(Product product)
         {
             context.Products.Add(product);
             context.SaveChanges();
@@ -41,7 +42,8 @@ namespace Project1.Controllers
             var result = context.Products.Find(id);
             return result != null ? View(result) : RedirectToAction("NotFound");
         }
-        public IActionResult SaveEdit(Product product)
+        [HttpPost]
+        public IActionResult Edit(Product product)
         {
             context.Products.Update(product);
             context.SaveChanges();
