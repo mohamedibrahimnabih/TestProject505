@@ -26,6 +26,9 @@ namespace Project1.Controllers
 
         public IActionResult Create()
         {
+            var result = context.Categories.ToList();
+            ViewData["listOfCategories"] = result;
+
             return View();
         }
         [HttpPost]
@@ -34,12 +37,27 @@ namespace Project1.Controllers
             context.Products.Add(product);
             context.SaveChanges();
 
-            return RedirectToAction("CreateNew");
+            return RedirectToAction("Create");
         }
 
         public IActionResult Edit(int id)
         {
             var result = context.Products.Find(id);
+
+            //string name = "Mohamed";
+            //int x = 10;
+            //List<double> doubles = new List<double>() { 10, 20, 30 };
+
+            //ViewData["name"] = name;
+            //ViewData["value"] = x;
+            //ViewData["list"] = doubles;
+
+            //ViewBag.name = name;
+            //ViewBag.value = x;
+            //ViewBag.list = doubles;
+
+            ViewData["listOfCategories"] = context.Categories.ToList();
+
             return result != null ? View(result) : RedirectToAction("NotFound");
         }
         [HttpPost]
