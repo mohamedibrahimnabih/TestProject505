@@ -1,0 +1,29 @@
+﻿@model Product
+<form action="/Product/SaveEdit" method="post">
+    <input type="hidden" name="Id" value="@Model.Id"></input>
+    <div class="mb-3">
+        <label for="Name" class="form-label">Product Name</label>
+        <input type="text" name="Name" value="@Model.Name" class="form-control" id="Name">
+    </div>
+    <div class="mb-3">
+        <label for="Description" class="form-label">Product Description</label>
+        <input type="text" name="Description" value="@Model.Description" class="form-control" id="Description">
+    </div>
+    <div class="mb-3">
+        <label for="Img" class="form-label">Product Img</label>
+        <input type="text" name="Img" class="form-control" value="@Model.Img" id="Img">
+    </div>
+    <div class="mb-3">
+        <label for="Price" class="form-label">Product Price</label>
+        <input type="number" name="Price" value="@Model.Price" class="form-control" id="Price">
+    </div>
+    <div class="mb-3">
+        <label for="Rate" class="form-label">Product Rate</label>
+        <input type="number" name="Rate" value="@Model.Rate" class="form-control" id="Rate">
+    </div>
+    <div class="mb-3">
+        <label for="CategoryId" class="form-label">Product CategoryId</label>
+        <input type="number" name="CategoryId" value="@Model.CategoryId" class="form-control" id="CategoryId">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

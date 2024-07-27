@@ -11,7 +11,7 @@ namespace Project1.Controllers
 
         public IActionResult Mobiles()
         {
-            var result = context.Products.Include(e=>e.Category).Where(e => e.CategoryId == 1);
+            var result = context.Products.Include(e=>e.Category).Where(e => e.CategoryId == 1).ToList();
             return View(result);
         }
 
@@ -34,6 +34,19 @@ namespace Project1.Controllers
             context.SaveChanges();
 
             return RedirectToAction("CreateNew");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var result = context.Products.Find(id);
+            return result != null ? View(result) : RedirectToAction("NotFound");
+        }
+        public IActionResult SaveEdit(Product product)
+        {
+            context.Products.Update(product);
+            context.SaveChanges();
+
+            return RedirectToAction("Mobiles");
         }
 
     }
