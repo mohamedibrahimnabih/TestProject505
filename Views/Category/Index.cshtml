@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Category>
+
+<a href="/Category/CreateNew" class="btn btn-primary mb-3"><i class="bi bi-plus-circle"></i> Create New Category</a>
+
+@section Ads {
+
+}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@item.Id</th>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>
+                    <a href="/Category/Edit?id=@item.Id" class="btn btn-warning">Edit</a>
+                    <button type="button" class="btn btn-danger delete-btn" data-id="@item.Id">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this category?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" action="">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+   @section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var deleteButtons = document.querySelectorAll('.delete-btn');
+            var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            var deleteForm = document.getElementById('deleteForm');
+
+            deleteButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var categoryId = button.getAttribute('data-id');
+                    deleteForm.setAttribute('action', '/Category/Delete?id=' + categoryId);
+                    deleteModal.show();
+                });
+            });
+        });
+    </script>
+   }
