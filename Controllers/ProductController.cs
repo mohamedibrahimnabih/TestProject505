@@ -49,5 +49,22 @@ namespace Project1.Controllers
             return RedirectToAction("Mobiles");
         }
 
+        public IActionResult Delete(int id)
+        {
+            var result = context.Products.Find(id);
+
+            if (result != null)
+            {
+                context.Products.Remove(result);
+                context.SaveChanges();
+                return RedirectToAction("Mobiles");
+            }
+            else
+            {
+                return RedirectToAction("NotFound", "Home");
+            }
+        }
+
+
     }
 }
