@@ -12,6 +12,10 @@ namespace Project1.Controllers
         public IActionResult Mobiles()
         {
             var result = context.Products.Include(e=>e.Category).Where(e => e.CategoryId == 1).ToList();
+
+            //Response.Cookies.Append("name", "Mohamed");
+            //TempData["tempname"] = "Mohamed";
+
             return View(result);
         }
 

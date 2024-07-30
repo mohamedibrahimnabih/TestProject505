@@ -10,6 +10,11 @@ namespace Project1.Controllers
 
         public IActionResult Index()
         {
+            //ViewData["name"] = Request.Cookies["name"];
+            //ViewData["name"] = TempData["tempname"];
+
+            //ViewData["state"] = TempData["state"];
+
             var result = context.Categories.ToList();
             return View(result);
         }
@@ -31,7 +36,7 @@ namespace Project1.Controllers
 
             context.Categories.Add(category);
             context.SaveChanges();
-
+            TempData["state"] = "Add Category successfully";
             return RedirectToAction("Index");
         }
 
@@ -46,6 +51,7 @@ namespace Project1.Controllers
         {
             context.Categories.Update(category);
             context.SaveChanges();
+            TempData["state"] = "Update Category successfully";
 
             return RedirectToAction("Index");
         }
