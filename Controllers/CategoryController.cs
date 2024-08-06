@@ -1,12 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project1.Data;
 using Project1.Models;
+using Project1.Repository;
+using Project1.Repository.IRepository;
 
 namespace Project1.Controllers
 {
     public class CategoryController : Controller
     {
-        ApplicationDbContext context = new ApplicationDbContext();
+
+        ICategoryRepository Repository;// = new CategoryRepository();
+
+        public CategoryController(ICategoryRepository categoryRepository)
+        {
+            Repository = categoryRepository;
+        }
 
         public IActionResult Index()
         {
@@ -15,14 +23,15 @@ namespace Project1.Controllers
 
             //ViewData["state"] = TempData["state"];
 
-            var result = context.Categories.ToList();
+            var result = Repository.GetAll();
             return View(result);
         }
 
         //[HttpGet]
         public IActionResult Create()
         {
-            return View();
+            Category category = new();
+            return View(category);
         }
         //public IActionResult SaveNew(string Name, string Description)
         [HttpPost]
@@ -34,23 +43,25 @@ namespace Project1.Controllers
             //    Description = Description
             //};
 
-            context.Categories.Add(category);
-            context.SaveChanges();
-            TempData["state"] = "Add Category successfully";
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                Repository.CreateNew(category);
+                TempData["state"] = "Add Category successfully";
+                return RedirectToAction("Index");
+            }
+
+            return View(category);
         }
 
         public IActionResult Edit(int id)
         {
-            var result = context.Categories.Find(id);
+            var result = Repository.GetOne(id);
             return result != null ? View(result) : RedirectToAction("NotFound", "Home");
         }
-
         [HttpPost]
         public IActionResult Edit(Category category)
         {
-            context.Categories.Update(category);
-            context.SaveChanges();
+            Repository.Edit(category);
             TempData["state"] = "Update Category successfully";
 
             return RedirectToAction("Index");
@@ -58,12 +69,11 @@ namespace Project1.Controllers
 
         public IActionResult Delete(int id)
         {
-            var result = context.Categories.Find(id);
+            var result = Repository.GetOne(id);
 
             if(result != null)
             {
-                context.Categories.Remove(result);
-                context.SaveChanges();
+                Repository.Delete(result);
                 return RedirectToAction("Index");
             }
             else

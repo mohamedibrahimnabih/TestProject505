@@ -1,34 +1,49 @@
-﻿<form action="/Product/Create" method="post">
+﻿@model Product
+
+<form action="/Product/Create" method="post">
     <div class="mb-3">
         <label for="Name" class="form-label">Product Name</label>
-        <input type="text" name="Name" class="form-control" id="Name">
+        <input asp-for="Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label for="Description" class="form-label">Product Description</label>
-        <input type="text" name="Description" class="form-control" id="Description">
+        <input asp-for="Description" class="form-control">
+        <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label for="Img" class="form-label">Product Img</label>
-        <input type="text" name="Img" class="form-control" id="Img">
+        <input type="text" asp-for="Img" class="form-control">
+        <span asp-validation-for="Img" class="text-danger"></span>
+
     </div>
     <div class="mb-3">
         <label for="Price" class="form-label">Product Price</label>
-        <input type="number" name="Price" class="form-control" id="Price">
+        <input type="number" class="form-control" asp-for="Price">
+        <span asp-validation-for="Price" class="text-danger"></span>
+
     </div>
     <div class="mb-3">
         <label for="Rate" class="form-label">Product Rate</label>
-        <input type="number" name="Rate" class="form-control" id="Rate">
+        <input type="number" name="Rate" class="form-control" value="@Model.Rate" id="Rate">
+        <span asp-validation-for="Rate" class="text-danger"></span>
+
     </div>
     <div class="mb-3">
         <label for="CategoryId" class="form-label">Product CategoryId</label>
         @* <input type="number" name="CategoryId" class="form-control" id="CategoryId"> *@
-        <select class="form-select" name="CategoryId">
+        @* <select class="form-select" name="CategoryId">
             @foreach (var item in (List<Category>)ViewData["listOfCategories"])
             {
                 <option value="@item.Id">@item.Name</option>
             }
-        </select>
-
+        </select> *@
+        <select class="form-select" asp-for="CategoryId" asp-items="ViewBag.listOfCategories"></select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

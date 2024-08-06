@@ -25,12 +25,19 @@
     <div class="mb-3">
         <label for="CategoryId" class="form-label">Product CategoryId</label>
         @* <input type="number" name="CategoryId" value="@Model.CategoryId" class="form-control" id="CategoryId"> *@
-        <select class="form-select" name="CategoryId">
+        @* <select class="form-select" name="CategoryId">
             @foreach (var item in (List<Category>)ViewData["listOfCategories"])
             {
-                <option value="@item.Id">@item.Name</option>
+                if (item.Id == Model.CategoryId)
+                {
+                    <option selected value="@item.Id">@item.Name</option>
+
+                }
+                <option selected value="@item.Id">@item.Name</option>
             }
-        </select>
+        </select> *@
+        <select class="form-select" asp-for="CategoryId" asp-items="@ViewBag.listOfCategories"></select>
+
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

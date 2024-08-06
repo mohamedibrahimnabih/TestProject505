@@ -1,11 +1,17 @@
-﻿<form action="/Category/Create" method="post">
+﻿@model Category
+
+<form action="/Category/Create" method="post">
     <div class="mb-3">
         <label for="Name" class="form-label">Category Name</label>
-        <input type="text" name="Name" class="form-control" id="Name">
+        <input type="text" name="Name" class="form-control" value="@Model.Name" id="Name">
+        @* @Html.TextBoxFor(e=>e.Name) *@
+        @* <input asp-for="Name" class="form-control" /> *@
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label for="Description" class="form-label">Category Description</label>
-        <input type="text" name="Description" class="form-control" id="Description">
+        <input type="text" name="Description" class="form-control" value="@Model.Description" id="Description">
+        <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

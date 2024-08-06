@@ -1,3 +1,7 @@
+using NuGet.Protocol.Core.Types;
+using Project1.Repository;
+using Project1.Repository.IRepository;
+
 namespace Project1
 {
     public class Program
@@ -8,6 +12,10 @@ namespace Project1
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            
+            //builder.Services.AddScoped<IRepository, MemoryRepository>();
+
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             var app = builder.Build();
 

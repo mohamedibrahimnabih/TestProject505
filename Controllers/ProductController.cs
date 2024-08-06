@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project1.Data;
 using Project1.Models;
@@ -30,18 +31,32 @@ namespace Project1.Controllers
 
         public IActionResult Create()
         {
-            var result = context.Categories.ToList();
+            var result = context.Categories.Select(e => new SelectListItem
+            {
+                Value = e.Id.ToString(),
+                Text = e.Name
+            }).ToList();
+
             ViewData["listOfCategories"] = result;
 
-            return View();
+
+            Product product = new();
+            return View(product);
         }
         [HttpPost]
         public IActionResult Create(Product product)
         {
-            context.Products.Add(product);
-            context.SaveChanges();
+            if(ModelState.IsValid)
+            {
+                context.Products.Add(product);
+                context.SaveChanges();
 
-            return RedirectToAction("Create");
+                return RedirectToAction("Create");
+            }
+
+            var result = context.Categories.ToList();
+            ViewData["listOfCategories"] = result;
+            return View(product);
         }
 
         public IActionResult Edit(int id)
@@ -60,7 +75,7 @@ namespace Project1.Controllers
             //ViewBag.value = x;
             //ViewBag.list = doubles;
 
-            ViewData["listOfCategories"] = context.Categories.ToList();
+            ViewData["listOfCategories"] = context.Categories.Select(e=>new SelectListItem(e.Name, e.Id.ToString()));
 
             return result != null ? View(result) : RedirectToAction("NotFound");
         }

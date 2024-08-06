@@ -23,12 +23,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/Category/Index" class="nav-link text-dark">Category</a>
+                        <li class="nav-item text-dark dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Management</a>
+                            <div class="dropdown-menu" style="">
+                                <a asp-action="Index" asp-controller="Category" class="nav-link text-dark">Category</a>
+
+                                <a asp-action="Mobiles" asp-controller="Product" class="nav-link text-dark">Product</a>
+
+                                <a asp-action="Index" asp-controller="Company" class="nav-link text-dark">Company</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a href="/Product/Mobiles" class="nav-link text-dark">Product</a>
-                        </li>
+                       
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
