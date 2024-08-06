@@ -9,6 +9,16 @@ namespace Project1.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Company> Companies { get; set; }
 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+        {
+        }
+
+        public ApplicationDbContext()
+        {
+            
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

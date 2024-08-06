@@ -2,7 +2,7 @@
 
 namespace Project1.Repository.IRepository
 {
-    public interface ICategoryRepository : IRepository<Category>
+    public interface ICompanyRepository : IRepository<Company>
     {
         /// for additional logic
     }

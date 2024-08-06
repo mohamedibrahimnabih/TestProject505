@@ -4,13 +4,15 @@ using Project1.Repository.IRepository;
 
 namespace Project1.Repository
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class CompanyRepository : Repository<Company>, ICompanyRepository
     {
         private readonly ApplicationDbContext context;
 
-        public CategoryRepository(ApplicationDbContext context) : base(context)
+        public CompanyRepository(ApplicationDbContext context) : base(context)
         {
             this.context = context;
         }
+
+        /// for additional logic
     }
 }
