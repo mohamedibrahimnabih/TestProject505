@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project1.Data;
 using Project1.Models;
 using Project1.Repository;
@@ -6,6 +7,8 @@ using Project1.Repository.IRepository;
 
 namespace Project1.Controllers
 {
+    [Authorize(Roles = "Admin")]
+
     public class CategoryController : Controller
     {
 
@@ -16,6 +19,7 @@ namespace Project1.Controllers
             Repository = categoryRepository;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             //ViewData["name"] = Request.Cookies["name"];
@@ -55,7 +59,7 @@ namespace Project1.Controllers
 
         public IActionResult Edit(int id)
         {
-            var result = Repository.GetOne(id);
+            var result = Repository.Get(e => e.Id == id).FirstOrDefault();
             return result != null ? View(result) : RedirectToAction("NotFound", "Home");
         }
         [HttpPost]
@@ -69,9 +73,9 @@ namespace Project1.Controllers
 
         public IActionResult Delete(int id)
         {
-            var result = Repository.GetOne(id);
+            var result = Repository.Get(e => e.Id == id).FirstOrDefault();
 
-            if(result != null)
+			if (result != null)
             {
                 Repository.Delete(result);
                 return RedirectToAction("Index");

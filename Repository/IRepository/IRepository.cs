@@ -1,4 +1,5 @@
 ﻿using Project1.Models;
+using System.Linq.Expressions;
 
 namespace Project1.Repository.IRepository
 {
@@ -9,8 +10,12 @@ namespace Project1.Repository.IRepository
         void Edit(T entity);
         void Delete(T entity);
         IEnumerable<T> GetAll();
-        T? GetOne(int id);
+		IEnumerable<T> Get(Expression<Func<T, bool>> expression, string? includeProperty = null);
+		IEnumerable<T> TestGet(Expression<Func<T, bool>> expression, Expression<Func<T, object>> includeProperty);
 
-        void Commit();
+        public IEnumerable<T> TestGet2(Expression<Func<T, bool>> expression,
+                                      params Expression<Func<T, object>>[] includeProperties);
+
+		void Commit();
     }
 }

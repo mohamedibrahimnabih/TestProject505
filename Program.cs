@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Core.Types;
 using Project1.Data;
+using Project1.Models;
 using Project1.Repository;
 using Project1.Repository.IRepository;
 
@@ -15,13 +17,15 @@ namespace Project1
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            //builder.Services.AddScoped<IRepository, MemoryRepository>();
-           builder.Services.AddDbContext<ApplicationDbContext>(
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
+			//builder.Services.AddScoped<IRepository, MemoryRepository>();
+			builder.Services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnetion")));
 
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IProductRepositroy, ProductRepository>();
 
             var app = builder.Build();
 
@@ -38,6 +42,7 @@ namespace Project1
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

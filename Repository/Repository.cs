@@ -2,6 +2,7 @@
 using Project1.Data;
 using Project1.Models;
 using Project1.Repository.IRepository;
+using System.Linq.Expressions;
 
 namespace Project1.Repository
 {
@@ -36,14 +37,36 @@ namespace Project1.Repository
             dbSet.Update(entity);
         }
 
-        public IEnumerable<T> GetAll()
+		public IEnumerable<T> Get(Expression<Func<T, bool>> expression, string? includeProperty = null)
+		{
+			if (includeProperty != null)
+				return dbSet.Include(includeProperty).Where(expression);
+			else
+				return dbSet.Where(expression);
+		}
+
+		public IEnumerable<T> GetAll()
         {
             return dbSet.ToList();
         }
 
-        public T? GetOne(int id)
-        {
-            return dbSet.Find(id);
-        }
-    }
+		public IEnumerable<T> TestGet(
+            Expression<Func<T, bool>> expression, Expression<Func<T, object>> includeProperty)
+		{
+			return dbSet.Include(includeProperty).Where(expression);
+		}
+
+		public IEnumerable<T> TestGet2(Expression<Func<T, bool>> expression, 
+                                      params Expression<Func<T, object>>[] includeProperties)
+		{
+			IQueryable<T> query = dbSet;
+			foreach (var includeProperty in includeProperties)
+			{
+				query = query.Include(includeProperty);
+			}
+			query = query.Where(expression);
+
+			return query;
+		}
+	}
 }

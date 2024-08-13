@@ -2,7 +2,10 @@
 
 <h1>@TempData["state"]</h1>
 
-<a href="/Category/Create" class="btn btn-primary mb-3"><i class="bi bi-plus-circle"></i> Create New Category</a>
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <a href="/Category/Create" class="btn btn-primary mb-3"><i class="bi bi-plus-circle"></i> Create New Category</a>
+}
 
 @section Ads {
 
@@ -14,7 +17,10 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
-            <th scope="col">Action</th>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <th scope="col">Action</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -24,10 +30,14 @@
                 <th scope="row">@item.Id</th>
                 <td>@item.Name</td>
                 <td>@item.Description</td>
-                <td>
-                    <a href="/Category/Edit?id=@item.Id" class="btn btn-warning">Edit</a>
-                    <button type="button" class="btn btn-danger delete-btn" data-id="@item.Id">Delete</button>
-                </td>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <td>
+
+                        <a href="/Category/Edit?id=@item.Id" class="btn btn-warning">Edit</a>
+                        <button type="button" class="btn btn-danger delete-btn" data-id="@item.Id">Delete</button>
+                    </td>
+                }
             </tr>
         }
     </tbody>
@@ -54,7 +64,7 @@
     </div>
 </div>
 
-   @section Scripts {
+@section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var deleteButtons = document.querySelectorAll('.delete-btn');
@@ -70,4 +80,4 @@
             });
         });
     </script>
-   }
+}

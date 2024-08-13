@@ -3,16 +3,33 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project1.Data;
 using Project1.Models;
+using Project1.Repository.IRepository;
 
 namespace Project1.Controllers
 {
     public class ProductController : Controller
     {
-        ApplicationDbContext context = new ApplicationDbContext();
+		private readonly IProductRepositroy productRepositroy;
+		private readonly ICategoryRepository categoryRepository;
+		private readonly ApplicationDbContext context;
+
+		public ProductController(IProductRepositroy productRepositroy, ICategoryRepository categoryRepository, ApplicationDbContext context)
+        {
+			this.productRepositroy = productRepositroy;
+			this.categoryRepository = categoryRepository;
+			this.context = context;
+		}
 
         public IActionResult Mobiles()
         {
-            var result = context.Products.Include(e=>e.Category).Where(e => e.CategoryId == 1).ToList();
+			//var result = context.Products.Include(e=>e.Category).Where(e => e.CategoryId == 1).ToList();
+
+			//var result = productRepositroy.Get(e => e.CategoryId == 1, includeProperty: nameof(Category));
+			//var result = productRepositroy.TestGet(e => e.CategoryId == 1, e=>e.Category);
+
+            var result = productRepositroy.TestGet2(
+                e => e.CategoryId == 1,
+                e => e.Category, e => e.Category, e => e.Category);
 
             //Response.Cookies.Append("name", "Mohamed");
             //TempData["tempname"] = "Mohamed";
@@ -24,14 +41,14 @@ namespace Project1.Controllers
         // /Product/Details?productId=1 ==> Query String
         public IActionResult Details(int productId)
         {
-            var result = context.Products.Find(productId);
+            var result = productRepositroy.Get(e=>e.Id == productId).FirstOrDefault();
             //var result = context.Products.Where()
             return View(result); 
         }
 
         public IActionResult Create()
         {
-            var result = context.Categories.Select(e => new SelectListItem
+            var result = categoryRepository.GetAll().Select(e => new SelectListItem
             {
                 Value = e.Id.ToString(),
                 Text = e.Name
@@ -48,20 +65,21 @@ namespace Project1.Controllers
         {
             if(ModelState.IsValid)
             {
-                context.Products.Add(product);
-                context.SaveChanges();
+                productRepositroy.CreateNew(product);
+                productRepositroy.Commit();
 
-                return RedirectToAction("Create");
+
+				return RedirectToAction("Create");
             }
 
-            var result = context.Categories.ToList();
+            var result = categoryRepository.GetAll();
             ViewData["listOfCategories"] = result;
             return View(product);
         }
 
         public IActionResult Edit(int id)
         {
-            var result = context.Products.Find(id);
+            var result = productRepositroy.Get(e => e.Id == id).FirstOrDefault();
 
             //string name = "Mohamed";
             //int x = 10;
@@ -75,28 +93,28 @@ namespace Project1.Controllers
             //ViewBag.value = x;
             //ViewBag.list = doubles;
 
-            ViewData["listOfCategories"] = context.Categories.Select(e=>new SelectListItem(e.Name, e.Id.ToString()));
+            ViewData["listOfCategories"] = categoryRepository.GetAll().Select(e=>new SelectListItem(e.Name, e.Id.ToString()));
 
             return result != null ? View(result) : RedirectToAction("NotFound");
         }
         [HttpPost]
         public IActionResult Edit(Product product)
         {
-            context.Products.Update(product);
-            context.SaveChanges();
+			productRepositroy.Edit(product);
+			productRepositroy.Commit();
 
-            return RedirectToAction("Mobiles");
+			return RedirectToAction("Mobiles");
         }
 
         public IActionResult Delete(int id)
         {
-            var result = context.Products.Find(id);
+            var result = productRepositroy.Get(e => e.Id == id).FirstOrDefault();
 
-            if (result != null)
+			if (result != null)
             {
-                context.Products.Remove(result);
-                context.SaveChanges();
-                return RedirectToAction("Mobiles");
+				productRepositroy.Delete(result);
+				productRepositroy.Commit();
+				return RedirectToAction("Mobiles");
             }
             else
             {

@@ -33,7 +33,7 @@ namespace Project1.Controllers
 			return View(company);
 		}
 
-        public IActionResult Edit(int id) => View(companyRepository.GetOne(id));
+        public IActionResult Edit(int id) => View(companyRepository.Get(e => e.Id == id).FirstOrDefault());
 
         [HttpPost]
 		[ValidateAntiForgeryToken]

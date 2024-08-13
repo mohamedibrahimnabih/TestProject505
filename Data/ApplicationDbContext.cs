@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Project1.Models;
+using Project1.Models.ViewModel;
 
 namespace Project1.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -31,5 +33,8 @@ namespace Project1.Data
 
             optionsBuilder.UseSqlServer(connection);
         }
+        public DbSet<Project1.Models.ViewModel.ApplicationUserVM> ApplicationUserVM { get; set; } = default!;
+        public DbSet<Project1.Models.ViewModel.LoginVM> LoginVM { get; set; } = default!;
+        public DbSet<Project1.Models.ViewModel.RoleVM> RoleVM { get; set; } = default!;
     }
 }
