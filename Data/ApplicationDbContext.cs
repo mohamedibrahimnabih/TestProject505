@@ -10,6 +10,7 @@ namespace Project1.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -33,8 +34,5 @@ namespace Project1.Data
 
             optionsBuilder.UseSqlServer(connection);
         }
-        public DbSet<Project1.Models.ViewModel.ApplicationUserVM> ApplicationUserVM { get; set; } = default!;
-        public DbSet<Project1.Models.ViewModel.LoginVM> LoginVM { get; set; } = default!;
-        public DbSet<Project1.Models.ViewModel.RoleVM> RoleVM { get; set; } = default!;
     }
 }

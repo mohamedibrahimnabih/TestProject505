@@ -2,6 +2,11 @@
 
 <a href="/Product/Create" class="btn btn-primary mb-3"><i class="bi bi-plus-circle"></i> Create New Mobile</a>
 
+<form asp-action="Search" asp-controller="Product" class="d-flex">
+    <input class="form-control me-sm-2" name="query" type="text" placeholder="Search" spellcheck="false" data-ms-editor="true">
+    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+</form>
+
 <section style="background-color: #eee;">
     <div class="container py-5">
         <div class="row">

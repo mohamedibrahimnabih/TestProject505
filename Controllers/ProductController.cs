@@ -77,6 +77,13 @@ namespace Project1.Controllers
             return View(product);
         }
 
+        public IActionResult Search(string query)
+        {
+            var result = productRepositroy.TestGet2(
+                e => e.Name.Contains(query), e => e.Category);
+            return View("Mobiles", result);
+        }
+
         public IActionResult Edit(int id)
         {
             var result = productRepositroy.Get(e => e.Id == id).FirstOrDefault();

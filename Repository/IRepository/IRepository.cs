@@ -9,7 +9,7 @@ namespace Project1.Repository.IRepository
         void CreateNew(T entity);
         void Edit(T entity);
         void Delete(T entity);
-        IEnumerable<T> GetAll();
+        IEnumerable<T> GetAll(string? includeProperty = null);
 		IEnumerable<T> Get(Expression<Func<T, bool>> expression, string? includeProperty = null);
 		IEnumerable<T> TestGet(Expression<Func<T, bool>> expression, Expression<Func<T, object>> includeProperty);
 

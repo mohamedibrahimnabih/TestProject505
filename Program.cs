@@ -26,6 +26,7 @@ namespace Project1
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
             builder.Services.AddScoped<IProductRepositroy, ProductRepository>();
+            builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 
             var app = builder.Build();
 
