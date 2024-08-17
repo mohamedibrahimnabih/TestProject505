@@ -5,6 +5,7 @@ using Project1.Data;
 using Project1.Models;
 using Project1.Repository;
 using Project1.Repository.IRepository;
+using Stripe;
 
 namespace Project1
 {
@@ -19,8 +20,11 @@ namespace Project1
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
-			//builder.Services.AddScoped<IRepository, MemoryRepository>();
-			builder.Services.AddDbContext<ApplicationDbContext>(
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
+            //builder.Services.AddScoped<IRepository, MemoryRepository>();
+            builder.Services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnetion")));
 
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
